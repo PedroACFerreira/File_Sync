@@ -26,7 +26,7 @@ Task remains operational after reboot. An option for automated task removal was 
 A simple GUI was also created using Tkinter to provide an intuitive way to set up synchronization.  
 
 Apart from xxHash, all included packages are native to Python. Script attempts to install xxHash using pip.  
-Scripts are compatible with Python 3.6+, or 3.2+ if f-strings are removed.
+Scripts are compatible with Python 3.6+ (3.2+ if f-strings are removed).
 
 ## Usage
 
