@@ -3,10 +3,10 @@
 File Sync script and optional GUI created as a task for Veeam Software.
 The scripts here allow for two folders to be selected for one-way synchronization.
 
-![License](https://img.shields.io/github/PedroACFerreira/File_Sync)
+![GitHub License](https://img.shields.io/github/license/PedroACFerreira/File_Sync)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
 [![compatibility: vermin](https://img.shields.io/badge/vermin-3.6%2B-text?style=flat
-)](https://github.com/netromdk/vermin)
+)](https://github.com/netromdk/vermin)https://github.com/PedroACFerreira/File_Sync/blob/main/README.md
 [![CodeFactor](https://www.codefactor.io/repository/github/pedroacferreira/file_sync/badge)](https://www.codefactor.io/repository/github/pedroacferreira/file_sync)
 
 ## Operation
