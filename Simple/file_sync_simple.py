@@ -379,7 +379,6 @@ def main(source=None, replica=None, log=os.getcwd() + r"\logfile.log", interval=
 
 if __name__ == "__main__":
     # To run from IDE, provide inputs to main.
-    # If running from GUI, inputs will be passed to the main() function.
-    main(source = r"C:\Users\pedro\Desktop\Original", replica = r"C:\Users\pedro\Desktop\Replica", log=r"C:\Users\pedro\Desktop\logfile.log", interval="1" ,now="1")
-#source=r"C:\Users\pedro\Desktop\Original", replica=r"C:\Users\pedro\Desktop\Replica", log=r"C:\Users\pedro\Desktop\logfile.log", multi=True, now="1", sched=True
+    main()
+
 
