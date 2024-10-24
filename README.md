@@ -45,6 +45,10 @@ Additional paramenters could be set to allow for elevation or synchronization ac
 - Folder synchronization across the network could be implemented.
 - An executable could be created to run folder synchronization on machines with no python installation. Requires script to be adapted.
 
+## Feedback
+
+Scripts were developed for Veeam Software as a task. You can reach out to me at ferreira.pedro.ac@gmail.com for any questions!
+
 ##
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
 [![compatibility: vermin](https://img.shields.io/badge/vermin-3.6%2B-text?style=flat
