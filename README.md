@@ -1,8 +1,8 @@
 # File Synchronization Script
 
-File Sync script and optional GUI created as a task for Veeam Software.  
 The scripts here allow for two folders to be selected for one-way synchronization.
-
+Includes a **Simple** and **Extended** File Sync script and optional an **GUI**.  
+   
 ![GitHub License](https://img.shields.io/github/license/PedroACFerreira/File_Sync)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
 [![compatibility: vermin](https://img.shields.io/badge/vermin-3.6%2B-text?style=flat
