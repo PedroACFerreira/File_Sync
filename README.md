@@ -7,9 +7,11 @@ The scripts here allow for two folders to be selected for one-way synchronizatio
 
 There are two versions to this script: **Simplified** and **Extended** with an optional **GUI**.  
 The simplified version is run from CMD or an IDE. It will allow for folder synchronization at defined intervals.
+   
 To check for file modification between the source and replica folder, it uses size or modified date by default.  
 A flag (strict) can be set to enforce a hash check on all existing files to check for modifications. This is more accurate but increases overhead.
 It always uses hashing to verify files after copy, to ensure no corruption. xxHash algorithm was chosen for its speed and safety.
+   
 All alterations made to the target folder are logged in a separate file defined by the user.  
    
 In the Extended version, an option for multiprocessing was added, to speed up operation. The number of processes can be set by the user.  
