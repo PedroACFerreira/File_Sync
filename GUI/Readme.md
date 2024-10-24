@@ -28,10 +28,10 @@ Depending on the set flags, it can run in intervals by keeping the CMD/IDE open,
 or it can create a task in Windows Task Scheduler to run it periodically.
 
 ##
-Checked for compatibility with vermin:
-Compatible with Python 3.6+
-Compatible with Python 3.2+ by removing f-strings
-Linted with Pylint
+Checked for compatibility with vermin:  
+Compatible with Python 3.6+  
+Compatible with Python 3.2+ by removing f-strings  
+Linted with Pylint  
 
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
 [![compatibility: vermin](https://img.shields.io/badge/vermin-3.6%2B-text?style=flat
