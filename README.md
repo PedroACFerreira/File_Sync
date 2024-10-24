@@ -48,9 +48,9 @@ There are several possible additions and modifications to this script that could
 - Alternative hashing algorithms can be implemented if required. Blake in particular would be more efficient for large files.
 - The **Simple** version of the script is Linux/Unix compatible. The **Extended** version can be adapted by setting up task scheduling with cron.
 - Additional settings can be added to task scheduling on Windows, like synchronization on log on or log off, finer interval or timing, and maximum task duration.
+This would required using Powershell and the ScheduledTask module as Schtasks does not allow for fine tuning of these parameters.
 - If folders to be synchronized contain large amounts of small files, it could be useful to implement multithreading.
-- Scripts are impletmented in a way that folder synchronization is only possible for the current user.
-Additional paramenters could be set to allow for elevation or synchronization across users of the same computer with provided login details.
+- Currently local to current user, additional paramenters could be set to allow for elevation or synchronization across users of the same computer with provided login details.
 - Folder synchronization across the network could be implemented.
 - An executable could be created to run folder synchronization on machines with no python installation. Requires script to be adapted.
 
