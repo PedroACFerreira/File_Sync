@@ -8,7 +8,6 @@ Includes a **Simple** and **Extended** File Sync script and optional an **GUI**.
 [![compatibility: vermin](https://img.shields.io/badge/vermin-3.6%2B-text?style=flat
 )](https://github.com/netromdk/vermin)
 [![CodeFactor](https://www.codefactor.io/repository/github/pedroacferreira/file_sync/badge)](https://www.codefactor.io/repository/github/pedroacferreira/file_sync)
-[![Coverage Status](https://coveralls.io/repos/github/PedroACFerreira/File_Sync/badge.svg?branch=main)](https://coveralls.io/github/PedroACFerreira/File_Sync?branch=main)
 
 ## Operation
  
