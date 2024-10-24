@@ -1,6 +1,6 @@
 # File Synchronization Script
 
-The scripts here allow for two folders to be selected for one-way synchronization.
+The scripts here allow for two folders to be selected for one-way synchronization.  
 Includes a **Simple** and **Extended** File Sync script and optional an **GUI**.  
    
 ![GitHub License](https://img.shields.io/github/license/PedroACFerreira/File_Sync)
