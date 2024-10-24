@@ -42,6 +42,11 @@ This will sync the specified folders now and then every day, and log it to logfi
 It will also enable multiprocessing with 6 processes. 
 Sched is set to create a task in Windows Task Scheduler.
 
+To use the GUI, just open file_sync_gui in CMD:  
+
+![image](https://github.com/user-attachments/assets/75a56616-1bab-4f9f-8f6b-98d2b6fc088c)
+
+
 ##
 Checked for compatibility with vermin:  
 Compatible with Python 3.6+  
