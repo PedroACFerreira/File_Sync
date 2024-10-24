@@ -38,6 +38,8 @@ This will sync the specified folders now and then in 10 minute intervals, and lo
 
 To use the GUI, simply open file_sync_gui.py in a CMD console.
 
+![image](https://github.com/user-attachments/assets/66ebae43-71e0-41d1-a8c6-d48064533de5)
+
 ## Possible Future Modifications
 
 There are several possible additions and modifications to this script that could improve it if required:
