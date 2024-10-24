@@ -9,6 +9,16 @@ xxHash algorithm is used for its speed and safety.
 All alterations made to the target folder are logged in a separate file.
 
 This function can be run from CMD with args or IDE using main().
+
+Here is an explanation of all options:
+    - Source - Select source path;
+    - Replica - Select replica path;
+    - Interval - Select how long it will take between each sync. Whole numbers only;
+    - Log - Path to logfile. Write the name of the file as *.log ;
+    - Strict - Enforces hash check on all files. If disabled, file modification
+                           will be checked using size/date modified. Increases Overhead;
+    - Now - Option to sync now and continue on interval, or just sync now and stop.
+
 Example usage in CMD:
 
  python file_sync_extended.py "-s C:/Users/<username>/Desktop/<SourceFolder>
@@ -23,7 +33,7 @@ It can run in set intervals by keeping the CMD/IDE open.
 
 All packages apart from xxHash are native to Python.
 
-For more information check the repository at GitHub.com
+For more information check the repository at https://github.com/PedroACFerreira/File_Sync
 
 Checked for compatibility with vermin:
 Compatible with Python 3.6+
