@@ -6,7 +6,7 @@ The scripts here allow for two folders to be selected for one-way synchronizatio
 ![GitHub License](https://img.shields.io/github/license/PedroACFerreira/File_Sync)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
 [![compatibility: vermin](https://img.shields.io/badge/vermin-3.6%2B-text?style=flat
-)](https://github.com/netromdk/vermin)https://github.com/PedroACFerreira/File_Sync/blob/main/README.md
+)](https://github.com/netromdk/vermin)
 [![CodeFactor](https://www.codefactor.io/repository/github/pedroacferreira/file_sync/badge)](https://www.codefactor.io/repository/github/pedroacferreira/file_sync)
 
 ## Operation
