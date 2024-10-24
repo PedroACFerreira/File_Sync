@@ -6,10 +6,10 @@ Tu run directly from CMD/IDE without GUI, use file_sync_extended.py
 
 ## Operation
 
-To check for file modification, it uses size or modified date.
-If strict flag is set, it will use hashing to verify modified files.
-Also uses hashing to verify files after copy, to ensure no corruption.
-xxHash algorithm is used for its speed and safety.
+To check for file modification, it uses size or modified date.  
+If strict flag is set, it will use hashing to verify modified files.  
+Also uses hashing to verify files after copy, to ensure no corruption.  
+xxHash algorithm is used for its speed and safety.  
 All alterations made to the target folder are logged in a separate file.
 
 ## Options
