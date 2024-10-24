@@ -25,15 +25,15 @@ All alterations made to the target folder are logged in a separate file.
 
 Navigate to the script location in CMD and input:
 
-`python file_sync_extended.py "-s C:/Users/<username>/Desktop/<SourceFolder> -r C:/Users/<username>/Desktop/<ReplicaFolder>" -i 10   
--u Minutes -l C:/Users/<username>/Desktop/logfile.log" --now 1"`
+`python file_sync.py "-s C:/Users/<username>/Desktop/<SourceFolder> -r C:/Users/<username>/Desktop/<ReplicaFolder>" -i 10
+ -u Minutes -l C:/Users/<username>/Desktop/logfile.log" --now 1"`
 
 This will sync the specified folders now and then in 10 minute intevals, and log it to logfile.log.
 
 ##
 Checked for compatibility with vermin:  
 Compatible with Python 3.6+  
-Compatible with Python 3.2+ by removing f-strings  
+Compatible with Python 2.7+/3.2+ by removing f-strings  
 Linted with Pylint  
 
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
