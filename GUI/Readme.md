@@ -1,5 +1,6 @@
 # GUI/Extended Version
 
+Scripts to synchronize files and directories between two folders.
 file_sync_gui.py provides a simple GUI to set the options for folder synchronization.
 
 Tu run directly from CMD/IDE without GUI, use file_sync_extended.py
@@ -8,7 +9,10 @@ Tu run directly from CMD/IDE without GUI, use file_sync_extended.py
 
 To check for file modification, it uses size or modified date. If strict flag is set, it will use hashing to verify modified files.  
 Also uses hashing to verify files after copy, to ensure no corruption. xxHash algorithm is used for its speed and safety.  
-All alterations made to the target folder are logged in a separate file.
+All alterations made to the target folder are logged in a separate file.  
+Multiprocessing can be enabled to speed up operation with the defined number of processes.  
+A task can be created in Windows Task Scheduler to automate synchronization at the defined intervals. 
+Options are provided to automate removing the task if required.
 
 ## Options
 
@@ -26,6 +30,17 @@ All alterations made to the target folder are logged in a separate file.
 
 Depending on the set flags, it can run in intervals by keeping the CMD/IDE open,
 or it can create a task in Windows Task Scheduler to run it periodically.
+
+## Usage Example (CMD)
+
+Navigate to the script location in CMD and input:
+
+`python file_sync_extended.py "-s C:/Users/<username>/Desktop/<SourceFolder> -r C:/Users/<username>/Desktop/<ReplicaFolder>" -i 1
+ -u Days -l C:/Users/<username>/Desktop/logfile.log" --sched --multi --procnum 6 --now 1"`
+
+This will sync the specified folders now and then every day, and log it to logfile.log. 
+It will also enable multiprocessing with 6 processes. 
+Sched is set to create a task in Windows Task Scheduler.
 
 ##
 Checked for compatibility with vermin:  
