@@ -130,20 +130,19 @@ def modified_check(source_file, replica_file):
     """ Check if files were modified since last check"""
 
     if not os.path.exists(replica_file):
-        return False  # Replica file doesn't exist, so it's considered "modified".
+        return [False,0]  # Replica file doesn't exist, so it's considered "modified".
 
     source_stat = os.stat(source_file)
     replica_stat = os.stat(replica_file)
 
     # Compare size and modification times.
     if source_stat.st_size != replica_stat.st_size or source_stat.st_mtime != replica_stat.st_mtime:
-        return False  # File is modified (size or time differs).
+        return [False,1]  # File is modified (size or time differs).
 
-    return True  # File is considered unchanged.
+    return [True,1]  # File is considered unchanged.
 
 
-
-def sync_directory(source_dir, replica_dir, strict):
+def sync_directory(source_dir, replica_dir, strict, log):
     """ Synchronize the source and replica directories. """
 
     file_tasks = []  # Initialize tasklist.
@@ -151,8 +150,10 @@ def sync_directory(source_dir, replica_dir, strict):
     # Traverse the source directory tree.
     for root, _, files in os.walk(source_dir):
         relative_path = os.path.relpath(root, source_dir)
-        replica_root = os.path.join(replica_dir, relative_path)
-
+        if relative_path != ".":
+            replica_root = os.path.join(replica_dir, relative_path)
+        else:
+            replica_root = replica_dir
         # Ensure the directory exists in the replica.
         if not os.path.exists(replica_root):
             os.makedirs(replica_root)
@@ -161,18 +162,17 @@ def sync_directory(source_dir, replica_dir, strict):
         for file in files:
             source_file = os.path.join(root, file)
             replica_file = os.path.join(replica_root, file)
+            check = modified_check(source_file, replica_file)
             if strict:
-                if not modified_check(source_file, replica_file):
-                    file_tasks.append((source_file, replica_file))
+                if not check[0]:
+                    log.info(copy_validate(source_file, replica_file, log, check[1]))
                 elif calculate_xxhash(source_file) != calculate_xxhash(replica_file):
-                    file_tasks.append((source_file, replica_file))
-            elif not modified_check(source_file, replica_file):
-                file_tasks.append((source_file, replica_file))
-
-    return file_tasks
+                    log.info(copy_validate(source_file, replica_file, log, check[1]))
+            elif not check[0]:
+                log.info(copy_validate(source_file, replica_file, log, check[1]))
 
 
-def copy_validate(original_file, replica_file, log):
+def copy_validate(original_file, replica_file, log, check):
     """ Copy and validate files and return the result to the main process for logging. """
 
     retry_count = 0
@@ -190,7 +190,9 @@ def copy_validate(original_file, replica_file, log):
 
             # Check if the hashes match to check for corruption after copy.
             if source_hash == replica_hash:
-                return f"File copied successfully: {original_file} to {replica_file}"
+                if check:
+                    return f"File updated successfully: {replica_file}"
+                return f"File copied successfully: {replica_file} to {replica_file}"
 
             log.error(f"Hash mismatch detected! Original: "
                       f"{original_file}, Replica: {replica_file}. Retrying...")
