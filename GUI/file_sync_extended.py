@@ -306,7 +306,7 @@ def remove_task():
     task_name = "FolderSyncTask"
 
     try:
-        subprocess.run(f"schtasks /delete /f /tn {task_name}", check=True, shell=True)
+        subprocess.run(["schtasks", "/delete", "/f", "/tn", task_name], check=True)
 
     except subprocess.CalledProcessError as e:
         print(f"Failed to remove task: {e}\n")
@@ -466,9 +466,7 @@ def main(gui=False, source=None, replica=None, log=os.path.join(os.getcwd(), "lo
 
         # If remove is set, do that before anything else.
         # If path arguments are not provided, terminate.
-        remove = args.remove
-
-        if remove:
+        if remove or args.remove:
             remove_task()
             if not (source and replica):
                 sys.exit(0)
