@@ -354,7 +354,7 @@ def main(source=None, replica=None, log=os.path.join(os.getcwd(), "logfile.log")
 
             # Validate inputs then run.
             validate_inputs(source, replica, log, interval, unit.casefold(), now)
-            run(source, replica, log, int(interval), unit.casefold(), strict,  now)
+            run(source, replica, log, int(interval), unit.casefold(), strict, now)
 
         # If no path arguments are passed, print help.
         else:
