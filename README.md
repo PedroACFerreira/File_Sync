@@ -46,6 +46,7 @@ To use the GUI, simply open file_sync_gui.py in a CMD console.
 
 There are several possible additions and modifications to this script that could improve it if required:
 - Alternative hashing algorithms can be implemented if required. Blake in particular would be more efficient for large files.
+- A flag to exclude certain folders or files inside the source folder from synchronization.
 - The **Simple** version of the script is Linux/Unix compatible (minor modifications might be required depending on installation).
 The **Extended** version must be adapted for use in other OS by setting up task scheduling with cron instead of Windows Task Scheduler.
 - Additional settings can be added to task scheduling on Windows, like synchronization on log on or log off, finer interval or timing, and maximum task duration.
