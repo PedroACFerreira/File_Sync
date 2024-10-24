@@ -10,9 +10,8 @@ Includes a **Simple** and **Extended** File Sync script and optional an **GUI**.
 [![CodeFactor](https://www.codefactor.io/repository/github/pedroacferreira/file_sync/badge)](https://www.codefactor.io/repository/github/pedroacferreira/file_sync)
 
 ## Operation
-
-There are two versions to this script: **Simplified** and **Extended** with an optional **GUI**.  
-The simplified version is run from CMD or an IDE. It will allow for folder synchronization at defined intervals.
+ 
+The simplified version of the script is run from CMD or an IDE. It will allow for folder synchronization at defined intervals.
    
 To check for file modification between the source and replica folder, it uses size or modified date by default.  
 A flag (strict) can be set to enforce a hash check on all existing files to check for modifications. This is more accurate but increases overhead.
@@ -21,8 +20,8 @@ It always uses hashing to verify files after copy, to ensure no corruption. xxHa
 All alterations made to the target folder are logged in a separate file defined by the user.  
    
 In the Extended version, an option for multiprocessing was added, to speed up operation. The number of processes can be set by the user.  
-Task scheduling for Windows OS was also added, to automate synchronization at the defined intervals. Uses Schtasks.  
-An option for automated task removal was included.
+Task scheduling for Windows OS was also added to automate synchronization at the defined intervals. Uses Schtasks.  
+Task remains operational after reboot. An option for automated task removal was included.
 
 A simple GUI was also created using Tkinter to provide an intuitive way to set up synchronization.  
 
@@ -35,7 +34,7 @@ Additional instructions can be found in the respective folder. A quick example o
 `python file_sync_simple.py" -s C:/Users/<username>/Desktop/<SourceFolder> -r C:/Users/<username>/Desktop/<ReplicaFolder>" -i 10
  -u Minutes -l C:/Users/<username>/Desktop/logfile.log" --now 1"`
 
-This will sync the specified folders now and then in 10 minute intevals, and log it to logfile.log.
+This will sync the specified folders now and then in 10 minute intervals, and log it to logfile.log.
 
 To use the GUI, simply open file_sync_gui.py in a CMD console.
 
