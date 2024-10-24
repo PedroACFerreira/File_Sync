@@ -420,7 +420,7 @@ def run(source, replica, log_file, interval, unit, multi, procnum, strict, sched
 
 
 # Main function to handle command line or default values.
-def main(gui=False, source=None, replica=None, log=os.getcwd() + r"\logfile.log", interval="10",
+def main(gui=False, source=None, replica=None, log=os.path.join(os.getcwd(), "logfile.log"), interval="10",
          unit="Minutes", multi=True, procnum="4", strict=False, sched=False, remove=False, now="0"):
     """
     Main function that will be run at beginning.
@@ -450,7 +450,7 @@ def main(gui=False, source=None, replica=None, log=os.getcwd() + r"\logfile.log"
         parser.add_argument("-u", "-unit", nargs='?', default="Minutes",
                             help="Unit of time. "
                                  "m (Minutes), h (Hours), d (Days), w (Weeks), mo (Months)")
-        parser.add_argument("-l", "-logfile", nargs='?', default=os.getcwd() + r"\logfile.log",
+        parser.add_argument("-l", "-logfile", nargs='?', default=os.path.join(os.getcwd(), "logfile.log"),
                             help="Log file path. " "Defaults to script directory.")
         parser.add_argument("--multi", action="store_true",
                             help="Enable multiprocessing")
