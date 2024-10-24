@@ -46,7 +46,8 @@ To use the GUI, simply open file_sync_gui.py in a CMD console.
 
 There are several possible additions and modifications to this script that could improve it if required:
 - Alternative hashing algorithms can be implemented if required. Blake in particular would be more efficient for large files.
-- The **Simple** version of the script is Linux/Unix compatible. The **Extended** version can be adapted by setting up task scheduling with cron.
+- The **Simple** version of the script is Linux/Unix compatible (minor modifications might be required depending on installation).
+The **Extended** version must be adapted for use in other OS by setting up task scheduling with cron instead of Windows Task Scheduler.
 - Additional settings can be added to task scheduling on Windows, like synchronization on log on or log off, finer interval or timing, and maximum task duration.
 This would required using Powershell and the ScheduledTask module as Schtasks does not allow for fine tuning of these parameters.
 - If folders to be synchronized contain large amounts of small files, it could be useful to implement multithreading.
