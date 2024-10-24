@@ -302,7 +302,7 @@ button_frame.grid(row=7, column=0, columnspan=3, pady=(10, 20))
 # Settings dictionary to be updated in the function on_submit.
 settings = {"Run":False}
 
-btn_submit = tk.Button(button_frame, text="Submit", command=on_submit,  state="disabled")
+btn_submit = tk.Button(button_frame, text="Submit", command=on_submit, state="disabled")
 btn_submit.pack(side="left", padx=10)
 
 # Cancel button.
