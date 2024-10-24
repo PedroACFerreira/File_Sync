@@ -142,10 +142,12 @@ def modified_check(source_file, replica_file):
     return [True,1]  # File is considered unchanged.
 
 
-def sync_directory(source_dir, replica_dir, strict, log):
+
+def sync_directory(source_dir, replica_dir, strict):
     """ Synchronize the source and replica directories. """
 
     file_tasks = []  # Initialize tasklist.
+    updated = 0  # To check if alterations were made.
 
     # Traverse the source directory tree.
     for root, _, files in os.walk(source_dir):
@@ -154,9 +156,11 @@ def sync_directory(source_dir, replica_dir, strict, log):
             replica_root = os.path.join(replica_dir, relative_path)
         else:
             replica_root = replica_dir
+
         # Ensure the directory exists in the replica.
         if not os.path.exists(replica_root):
             os.makedirs(replica_root)
+            updated = 1
 
         # Add files that need to be copied/updated to a list.
         for file in files:
@@ -165,11 +169,16 @@ def sync_directory(source_dir, replica_dir, strict, log):
             check = modified_check(source_file, replica_file)
             if strict:
                 if not check[0]:
-                    log.info(copy_validate(source_file, replica_file, log, check[1]))
+                    file_tasks.append((source_file, replica_file,check[1]))
+                    updated = 1
                 elif calculate_xxhash(source_file) != calculate_xxhash(replica_file):
-                    log.info(copy_validate(source_file, replica_file, log, check[1]))
+                    file_tasks.append((source_file, replica_file, check[1]))
+                    updated = 1
             elif not check[0]:
-                log.info(copy_validate(source_file, replica_file, log, check[1]))
+                file_tasks.append((source_file, replica_file, check[1]))
+                updated = 1
+
+    return [file_tasks, updated]
 
 
 def copy_validate(original_file, replica_file, log, check):
@@ -205,7 +214,7 @@ def copy_validate(original_file, replica_file, log, check):
     return f"Failed to copy {original_file} after {max_retries} attempts"
 
 
-def cleanup_replica(source_dir, replica_dir, log):
+def cleanup_replica(source_dir, replica_dir, log, updated):
     """ Remove files and directories that no longer exist from Replica folder. """
 
     # Walk directories with topdown=False to log all deleted files and directories.
@@ -220,6 +229,7 @@ def cleanup_replica(source_dir, replica_dir, log):
             if not os.path.exists(source_file):
                 os.remove(replica_file)
                 log.info(f"File removed: {replica_file}")
+                updated = 1
 
         # Remove directories that no longer exist in the source directory and log.
         for currdir in dirs[:]:
@@ -229,28 +239,44 @@ def cleanup_replica(source_dir, replica_dir, log):
                 shutil.rmtree(replica_dir_path)
                 log.info(f"Directory removed: {replica_dir_path}")
                 dirs.remove(currdir)
+                updated = 1
+
+    return updated
 
 
 def synchronization(source, replica, logfile, multi, procnum, strict):
     """ Main synchronization function with optional multiprocessing."""
 
     log = setup_logger(logfile)
-    file_tasks = sync_directory(source, replica, strict)
+    sync_list = sync_directory(source, replica, strict)
+    file_tasks = sync_list[0]
+    updated = sync_list[1]
 
-    if multi:
-        # If multiprocessing is enabled
-        with ProcessPoolExecutor(max_workers=procnum) as executor:
-            futures = [executor.submit(copy_validate, src, dst, log) for src, dst in file_tasks]
-            for future in futures:
-                result = future.result()  # Get the result from the copy_validate function
-                log.info(result)  # Log the result in the main process
+    if file_tasks:
+        if multi:
+            # If multiprocessing is enabled
+            with ProcessPoolExecutor(max_workers=procnum) as executor:
+                futures = [executor.submit(copy_validate, src, dst, log, check)
+                           for src, dst, check in file_tasks]
+                for future in futures:
+                    result = future.result()  # Get the result from the copy_validate function
+                    log.info(result)  # Log the result in the main process
+        else:
+            # If multiprocessing is disabled, process tasks sequentially
+            for src, dst, check in file_tasks:
+                result = copy_validate(src, dst, log, check)
+                log.info(result)
+
+    updated = cleanup_replica(source, replica, log, updated)
+
+    if updated:
+        log.info("Synchronization complete, all alterations were logged!\n"
+                 "---------------------------------------------"
+                 "---------------------------------------------")
     else:
-        # If multiprocessing is disabled, process tasks sequentially
-        for src, dst in file_tasks:
-            result = copy_validate(src, dst, log)
-            log.info(result)
-
-    cleanup_replica(source, replica, log)
+        log.info("Synchronization complete, no alterations were necessary!\n"
+                 "---------------------------------------------"
+                 "---------------------------------------------")
 
 
 def schedule_task(source, replica, log_file, interval, unit, multi, procnum, strict, script_path):
@@ -278,7 +304,8 @@ def schedule_task(source, replica, log_file, interval, unit, multi, procnum, str
         "schtasks", "/Create", "/f", "/SC", unit_conv(unit), "/MO", str(int(interval)),
         "/TN", task_name,
         "/TR",
-        f"'{sys.executable.replace('python.exe', 'pythonw.exe')}' '{script_path}' -s '{source}' -r '{replica}' -l '{log_file}'{extra} --now 2"
+        f"'{sys.executable.replace('python.exe', 'pythonw.exe')}' "
+        f"'{script_path}' -s '{source}' -r '{replica}' -l '{log_file}'{extra} --now 2"
     ]
 
     # This command is required to disable the default setting of closing the task after 3 days.
