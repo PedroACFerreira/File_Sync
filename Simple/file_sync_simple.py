@@ -310,7 +310,7 @@ def run(source, replica, log_file, interval, unit, strict, now):
 
 
 # Main function to handle command line or default values.
-def main(source=None, replica=None, log=os.getcwd() + r"\logfile.log", interval="10",
+def main(source=None, replica=None, log=os.path.join(os.getcwd(), "logfile.log"), interval="10",
          unit="Minutes", strict=False, now="0"):
     """
     Will handle calls from CMD and IDE.
@@ -336,7 +336,7 @@ def main(source=None, replica=None, log=os.getcwd() + r"\logfile.log", interval=
     parser.add_argument("-u", "-unit", nargs='?', default="Minutes",
                         help="Unit of time. "
                              "m (Minutes), h (Hours), d (Days)")
-    parser.add_argument("-l", "-logfile", nargs='?', default=os.getcwd() + r"\logfile.log",
+    parser.add_argument("-l", "-logfile", nargs='?', default=os.path.join(os.getcwd(), "logfile.log"),
                         help="Log file path. " "Defaults to script directory.")
     parser.add_argument("--strict", action="store_true",
                         help="Hash check of all files regardless of state.")
