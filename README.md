@@ -3,6 +3,12 @@
 File Sync script and optional GUI created as a task for Veeam Software.
 The scripts here allow for two folders to be selected for one-way synchronization.
 
+![License](https://img.shields.io/github/PedroACFerreira/File_Sync)
+[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
+[![compatibility: vermin](https://img.shields.io/badge/vermin-3.6%2B-text?style=flat
+)](https://github.com/netromdk/vermin)
+[![CodeFactor](https://www.codefactor.io/repository/github/pedroacferreira/file_sync/badge)](https://www.codefactor.io/repository/github/pedroacferreira/file_sync)
+
 ## Operation
 
 There are two versions to this script: **Simplified** and **Extended** with an optional **GUI**.  
@@ -48,10 +54,4 @@ Additional paramenters could be set to allow for elevation or synchronization ac
 ## Feedback
 
 Scripts were developed for Veeam Software as a task. You can reach out to me at ferreira.pedro.ac@gmail.com for any questions!
-
-##
-[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
-[![compatibility: vermin](https://img.shields.io/badge/vermin-3.6%2B-text?style=flat
-)](https://github.com/netromdk/vermin)
-[![CodeFactor](https://www.codefactor.io/repository/github/pedroacferreira/file_sync/badge)](https://www.codefactor.io/repository/github/pedroacferreira/file_sync)
 
