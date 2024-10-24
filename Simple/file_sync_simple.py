@@ -133,12 +133,10 @@ def modified_check(source_file, replica_file):
 
     return [True,1]  # File is considered unchanged.
 
-
 def sync_directory(source_dir, replica_dir, strict, log):
     """ Synchronize the source and replica directories. """
 
-    file_tasks = []  # Initialize tasklist.
-
+    updated = 0  # Variable to check if anything was updated.
     # Traverse the source directory tree.
     for root, _, files in os.walk(source_dir):
         relative_path = os.path.relpath(root, source_dir)
@@ -148,6 +146,7 @@ def sync_directory(source_dir, replica_dir, strict, log):
             replica_root = replica_dir
         # Ensure the directory exists in the replica.
         if not os.path.exists(replica_root):
+            updated = 1
             os.makedirs(replica_root)
 
         # Add files that need to be copied/updated to a list.
@@ -158,11 +157,24 @@ def sync_directory(source_dir, replica_dir, strict, log):
             if strict:
                 if not check[0]:
                     log.info(copy_validate(source_file, replica_file, log, check[1]))
+                    updated = 1
                 elif calculate_xxhash(source_file) != calculate_xxhash(replica_file):
                     log.info(copy_validate(source_file, replica_file, log, check[1]))
+                    updated = 1
             elif not check[0]:
                 log.info(copy_validate(source_file, replica_file, log, check[1]))
+                updated = 1
 
+    updated = cleanup_replica(source_dir, replica_dir, log, updated)
+
+    if updated:
+        log.info("Synchronization complete, all alterations were logged!\n"
+                 "---------------------------------------------"
+                 "---------------------------------------------")
+    else:
+        log.info("Synchronization complete, no alterations were necessary!\n"
+                 "---------------------------------------------"
+                 "---------------------------------------------")
 
 def copy_validate(original_file, replica_file, log, check):
     """ Copy and validate files and return the result to the main process for logging. """
@@ -197,7 +209,7 @@ def copy_validate(original_file, replica_file, log, check):
     return f"Failed to copy {original_file} after {max_retries} attempts"
 
 
-def cleanup_replica(source_dir, replica_dir, log):
+def cleanup_replica(source_dir, replica_dir, log, updated):
     """ Remove files and directories that no longer exist from Replica folder. """
 
     # Walk directories with topdown=False to log all deleted files and directories.
@@ -212,6 +224,7 @@ def cleanup_replica(source_dir, replica_dir, log):
             if not os.path.exists(source_file):
                 os.remove(replica_file)
                 log.info(f"File removed: {replica_file}")
+                updated = 1
 
         # Remove directories that no longer exist in the source directory and log.
         for currdir in dirs[:]:
@@ -221,14 +234,16 @@ def cleanup_replica(source_dir, replica_dir, log):
                 shutil.rmtree(replica_dir_path)
                 log.info(f"Directory removed: {replica_dir_path}")
                 dirs.remove(currdir)
+                updated = 1
 
+    return updated
 
 def synchronization(source, replica, logfile, strict):
     """ Main synchronization function."""
 
     log = setup_logger(logfile)
     sync_directory(source, replica, strict, log)
-    cleanup_replica(source, replica, log)
+
 
 def unit_conv(unit):
     """ Check if unit variable is valid"""
@@ -332,16 +347,21 @@ def main(source=None, replica=None, log=os.path.join(os.getcwd(), "logfile.log")
                                      "-u Minutes"
                                      "-l C:/Users/<username>/Desktop/logfile.log"
                                      )
-    parser.add_argument("-s", "-source", nargs='?', default="",
+    parser.add_argument("-s", "-source", nargs='?',
+                        default="",
                         help="Source folder path.")
-    parser.add_argument("-r", "-replica", nargs='?', default="",
+    parser.add_argument("-r", "-replica", nargs='?',
+                        default="",
                         help="Replica folder path.")
-    parser.add_argument("-i", "-interval", nargs='?', type=int, default=10,
+    parser.add_argument("-i", "-interval", nargs='?',type=int,
+                        default=10,
                         help="Sync interval in the selected unit. Default 10.")
-    parser.add_argument("-u", "-unit", nargs='?', default="Minutes",
+    parser.add_argument("-u", "-unit", nargs='?',
+                        default="Minutes",
                         help="Unit of time. "
                              "m (Minutes), h (Hours), d (Days)")
-    parser.add_argument("-l", "-logfile", nargs='?', default=os.path.join(os.getcwd(), "logfile.log"),
+    parser.add_argument("-l", "-logfile", nargs='?',
+                        default=os.path.join(os.getcwd(), "logfile.log"),
                         help="Log file path. " "Defaults to script directory.")
     parser.add_argument("--strict", action="store_true",
                         help="Hash check of all files regardless of state.")
@@ -383,6 +403,4 @@ def main(source=None, replica=None, log=os.path.join(os.getcwd(), "logfile.log")
 
 if __name__ == "__main__":
     # To run from IDE, provide inputs to main.
-    main()
-
-
+    main(source=r"C:\Users\pedro\Desktop\Original", replica=r"C:\Users\pedro\Desktop\Replica", strict=True, now="2")
