@@ -267,38 +267,33 @@ def schedule_task(source, replica, log_file, interval, unit, multi, procnum, str
     if strict:
         extra += ' --strict'
 
-    # Create the full command that will be used to create the task using schtasks.
+    # Create the commands that will be used to create the task using schtasks.
     # Paths need to be in double quotes to avoid problems with paths with spaces.
-    # The name of this script must not have spaces for this to work properly.
+    # The name of this script must not have spaces.
     # Using pythonw.exe instead of python.exe so that no CMD window pops up during sync.
 
-    cmdcommand = (
+    cmdcommand = [
+        "schtasks", "/Create", "/f", "/SC", unit_conv(unit), "/MO", str(int(interval)),
+        "/TN", task_name,
+        "/TR",
+        f"'{sys.executable.replace('python.exe', 'pythonw.exe')}' '{script_path}' -s '{source}' -r '{replica}' -l '{log_file}'{extra} --now 2"
+    ]
 
-        f"""schtasks /Create /f /SC {unit_conv(unit)} /MO {int(interval)} """
-        f"""/TN {task_name} """
-        f"""/TR "'{sys.executable.replace("python.exe", "pythonw.exe")}' '{script_path}' -s '{source}' """
-        f"""-r '{replica}' -l '{log_file}'{extra} --now 2"""
+    # This command is required to disable the default setting of closing the task after 3 days.
+    pwscommand = [
+        "powershell.exe", "-Command",
+        "$Task = Get-ScheduledTask -TaskName 'FolderSyncTask'; "
+        "$Settings = $Task.Settings; "
+        "$Settings.ExecutionTimeLimit = 'PT0S'; "
+        "Set-ScheduledTask -TaskName 'FolderSyncTask' -Settings $Settings"
+    ]
 
-    )
-
-    # Disable the default "Shut off task after 3 days". Not possible with schtasks.
-    pwscommand = (
-
-        """
-        $Task = Get-ScheduledTask -TaskName 'FolderSyncTask'
-        $Settings = $Task.Settings
-        $Settings.ExecutionTimeLimit = 'PT0S'
-        Set-ScheduledTask -TaskName 'FolderSyncTask' -Settings $Settings
-        """
-    )
-
-    # Run the command to schedule the task using subprocess.
+    # Run the schtasks command
     try:
-        subprocess.run(cmdcommand, check=True, shell=True)
+        subprocess.run(cmdcommand, check=True)
         st_inf = subprocess.STARTUPINFO()
-        st_inf.dwFlags = st_inf.dwFlags | subprocess.STARTF_USESHOWWINDOW
-        subprocess.run(["powershell.exe", "-Command", pwscommand],
-                        startupinfo=st_inf, stdout=subprocess.PIPE, check=True)
+        st_inf.dwFlags |= subprocess.STARTF_USESHOWWINDOW  # To hide the console window
+        subprocess.run(pwscommand, startupinfo=st_inf, stdout=subprocess.PIPE, check=True)
 
     except Exception as error:
         print(f"\nFailed to create scheduled task: {error}\n")
