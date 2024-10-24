@@ -21,7 +21,7 @@ Here is an explanation of all options:
 
 Example usage in CMD:
 
- python file_sync_extended.py "-s C:/Users/<username>/Desktop/<SourceFolder>
+ python file_sync_simple.py "-s C:/Users/<username>/Desktop/<SourceFolder>
                                -r C:/Users/<username>/Desktop/<ReplicaFolder>"
                                -i 10
                                -u Minutes
@@ -282,7 +282,7 @@ def validate_inputs(source, replica, log, interval, unit, now):
 
 
 def run(source, replica, log_file, interval, unit, strict, now):
-    """ Run synchronization and set task in Windows Task Scheduler."""
+    """ Run synchronization."""
 
     # If now is 1, synchronize and proceed. Sync and terminate if 2.
     if now == "1":
@@ -313,8 +313,7 @@ def run(source, replica, log_file, interval, unit, strict, now):
 def main(source=None, replica=None, log=os.getcwd() + r"\logfile.log", interval="10",
          unit="Minutes", strict=False, now="0"):
     """
-    Main function that will be run at beginning.
-    Will handle calls from CMD, and IDE, or from the GUI accordingly.
+    Will handle calls from CMD and IDE.
     Default values are set for all except source and replica folder paths.
     """
 
