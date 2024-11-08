@@ -1,6 +1,6 @@
 # File Synchronization Script
 
-The scripts here allow for two folders to be selected for one-way synchronization.  
+The scripts here allow for two folders to be selected for one-way synchronization. Crated as a task for Veeam Software.
 Includes a **Simple** and **Extended** script and optional an **GUI**.  
    
 ![GitHub License](https://img.shields.io/github/license/PedroACFerreira/File_Sync)
